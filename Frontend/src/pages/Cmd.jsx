@@ -1,70 +1,57 @@
-import React from 'react'
-import { Terminal } from 'xterm'
-import 'xterm/css/xterm.css'
+import React, { useEffect, useRef } from "react";
+import { Terminal } from "xterm";
+import "xterm/css/xterm.css";
 
-import socketio from 'socket.io-client'
-import { SOCKET_URL } from "../config"
+import socketio from "socket.io-client";
+import { SOCKET_URL } from "../config";
 
+const Cmd = () => {
+  const termDOM = useRef();
 
-class Cmd extends React.Component {
+  useEffect(() => {
+    // init
+    const socket = socketio.connect(SOCKET_URL, { transports: ["websocket"] });
+    const term = new Terminal();
 
-    constructor(props) {
-        super(props);
+    // config
+    term.open(termDOM.current);
+    term.resize(90, 25);
+    socket.emit("resize", 90, 25);
+    term.focus();
 
-        // refs
-        this.term_wrapper = React.createRef();
-        this.termDOM = React.createRef();
-    }
+    // input
+    term.onData((data) => {
+      socket.emit("in", data);
+    });
 
-    componentDidMount() {
-        // init
-        this.socket = socketio.connect(SOCKET_URL, { transports: ['websocket'] });
-        this.term = new Terminal();
+    // output
+    socket.on("out", (data) => {
+      term.write(data);
+    });
 
-        // config
-        this.term.open(this.termDOM.current);
-        this.term.resize(90, 25);
-        this.socket.emit('resize', 90, 25);
-        this.term.focus();
+    // exit
+    socket.on("exit", (data) => {
+      term.dispose();
+      socket.emit("kill");
+    });
 
-        // input
-        this.term.onData((data) => {
-            this.socket.emit('in', data);
-        })
+    // focus
+    window.addEventListener("focus", () => {
+      term.focus();
+    });
 
-        // output
-        this.socket.on('out', (data) => {
-            this.term.write(data);
-        })
+    return () => {
+      term?.dispose?.();
+      socket.emit("kill");
+      window.removeEventListener("focus", window);
+    };
+  }, []);
 
-        // exit
-        this.socket.on('exit', (data) => {
-            this.term.dispose();
-            this.socket.emit('kill');
-        })
-
-        // focus
-        window.addEventListener('focus', () => {
-            this.term.focus();
-        })
-    }
-
-    componentWillUnmount() {
-        // close terminal
-        this.term.dispose();
-        this.socket.emit('kill');
-
-        window.removeEventListener('focus', window);
-    }
-
-
-    render() {
-        return (
-            <div ref={this.term_wrapper} className="term-wrapper" >
-                <div ref={this.termDOM} className="terminal"></div>
-            </div >
-        );
-    }
-}
+  return (
+    <div className="term-wrapper">
+      <div ref={termDOM} className="terminal"></div>
+    </div>
+  );
+};
 
 export default Cmd;

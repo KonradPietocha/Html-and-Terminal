@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Route, Switch } from 'react-router-dom'
+import { Route, Routes } from 'react-router-dom'
 
 import Navbar from './Components/navbar'
 import Home from './pages/Home';
@@ -22,11 +22,11 @@ function App() {
 
 			<div className={`main ${light ? "light" : "dark"}`}>
 				<Navbar />
-				<Switch>
-					<Route exact path='/' component={Home} />
-					<Route exact path='/cmd' component={Cmd} />
-					<Route exact path='/about' component={About} />
-				</Switch>
+				<Routes>
+					<Route path='/' element={<Home/>} />
+					<Route path='/cmd' element={<Cmd/>} />
+					<Route path='/about' element={<About />} />
+				</Routes>
 			</div>
 		</React.Fragment>
 	);

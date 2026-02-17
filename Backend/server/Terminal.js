@@ -1,4 +1,4 @@
-const os = require('os');
+const os = require('node:os');
 const npty = require('node-pty');
 
 class Terminal {
