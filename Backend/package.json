@@ -4,14 +4,15 @@
   "description": "use html UI for work with terminal",
   "main": "src/index.js",
   "scripts": {
-    "start": "node server/server.js"
+    "start": "node server/server.js",
+    "postinstall": "chmod +x node_modules/node-pty/prebuilds/darwin-arm64/spawn-helper"
   },
   "author": "Utsav",
   "license": "ISC",
   "dependencies": {
     "cors": "^2.8.6",
     "express": "^5.2.1",
-    "node-pty": "0.10.1",
+    "node-pty": "1.1.0",
     "socket.io": "^4.8.3"
   }
 }
