@@ -8,9 +8,9 @@ class Navbar extends React.Component {
                 <div className="subdiv">
                     <span className="logo" title="> Run" > &gt;&nbsp;Run</span>
                     <span className="navlink">
-                        <NavLink exact className="link" activeClassName="active" to="/">Home</NavLink>
-                        <NavLink className="link" activeClassName="active" to="/cmd">Terminal</NavLink>
-                        <NavLink className="link" activeClassName="active" to="/about">About</NavLink>
+                        <NavLink className="link" to="/">Home</NavLink>
+                        <NavLink className="link" to="/cmd">Terminal</NavLink>
+                        <NavLink className="link" to="/about">About</NavLink>
                     </span>
                 </div>
                 <a className="github-link" href="https://github.com/Utsav-Ladani/Html-and-Terminal" target="_blank" rel="noopener noreferrer">

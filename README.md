@@ -11,3 +11,10 @@ Version 2 Demo : https://youtu.be/AhOC-8VGVNI
 - express
 - node-pty
 
+## Install project
+To install run npm install and it should run npm installation for Frontend and Backend side.
+
+## Run project
+To run this example just run scripts from main package.json:
+- npm run serve
+- npm run start (should run in another terminal).

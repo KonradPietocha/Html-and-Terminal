@@ -1,0 +1,10 @@
+{
+  "name": "terminal",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "postinstall": "cd Backend && npm install && cd ../Frontend && npm install",
+    "serve": "cd Backend && npm start",
+    "start": "cd Frontend && npm start"
+  }
+}
